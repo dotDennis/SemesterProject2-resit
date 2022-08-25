@@ -4,7 +4,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { useEffect, useState } from "react";
 
-export default function topNav() {
+export default function TopNav() {
   const [navbar, setNavbar] = useState(false);
 
   const changeNavbar = () => {
