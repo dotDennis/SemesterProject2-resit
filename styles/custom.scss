@@ -1,0 +1,20 @@
+// Color customization
+$theme-colors: (
+  "primary": #ff6464,
+  "dark": #212121,
+  "white": #ffffff,
+  "secondary": #ffffff,
+  "light": #ededec,
+);
+
+$light: #ededec;
+$white: #ffffff;
+$secondary: $white;
+$primary: #ff6464;
+$dark: #212121;
+
+// Utilities
+
+$border-radius: 15px;
+
+@import "bootstrap/scss/bootstrap.scss";
