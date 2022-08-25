@@ -3,7 +3,7 @@ import Head from "../../components/layout/Head";
 import Layout from "../../components/layout/Layout";
 import Container from "react-bootstrap/Container";
 import checkToken from "../../constants/checkToken";
-import NewArticle from "../../components/NewAccomodation";
+import NewArticle from "../../components/NewArticle";
 
 if (checkToken() === false) {
   location.href = "/login";
