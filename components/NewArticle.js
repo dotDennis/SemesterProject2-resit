@@ -8,7 +8,6 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
-import slugify from "slugify";
 
 // rich text editor credits:
 // https://www.youtube.com/watch?v=CuPqfcTnIwg
@@ -51,12 +50,9 @@ export default function EnquiryForm() {
 
     const url = BASE_URL + "/api/accomodations";
 
-    const sluggedName = slugify(data.Name, { lower: true });
-
     const body = {
       data: {
         Name: data.Name,
-        slug: sluggedName,
         short_desc: data.short_desc,
         long_desc: data.long_desc,
         host: data.host,
