@@ -6,8 +6,6 @@ import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import axios from "axios";
 import { BASE_URL } from "../constants/api";
-import { saveToken, saveUser } from "../utils/storage";
-import Router from "next/router";
 
 const schema = yup.object().shape({
   username: yup.string().required("Please enter your username"),
