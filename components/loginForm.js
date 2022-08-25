@@ -6,6 +6,7 @@ import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import axios from "axios";
 import { BASE_URL } from "../constants/api";
+import { redirect } from "next/dist/server/api-utils";
 
 const schema = yup.object().shape({
   username: yup.string().required("Please enter your username"),
@@ -25,41 +26,39 @@ export default function LoginForm() {
   });
 
   async function onSubmit(data) {
-    console.log(data);
     setSubmitting(true);
     setLoginError(null);
 
-    try {
-      const response = await axios.post(BASE_URL + "jwt-auth/v1/token", {
+    axios
+      .post(`${BASE_URL}jwt-auth/v1/token`, {
         username: data.username,
         password: data.password,
-      });
-      console.log(response);
+      })
+      .then((res) => {
+        if (undefined === res.data.token) {
+          setLoginError(res.data.message);
+          setSubmitting(false);
+          console.log(res.data.message);
+        }
+        setSubmitting(false);
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("userName", res.data.user_nicename);
+        localStorage.setItem("userEmail", res.data.user_email);
+        localStorage.setItem("displayName", res.data.user_display_name);
 
-      if (response.status === 200) {
-        console.log(response);
-        console.log("hello");
-      }
-    } catch (error) {
-      if (error.response.status === 400) {
-        setLoginError("Username and password did not match.");
-        console.log("didnt match");
-      } else {
-        console.log("cant reach server");
-        setLoginError("Seems like we're having some troubles, please try again later!");
-      }
-      console.log(errors);
-    } finally {
-      setSubmitting(false);
-      console.log("ran");
-    }
+        location.href = "../article/html-classes";
+      })
+      .catch((err) => {
+        setLoginError(err.response.data.message);
+        setSubmitting(false);
+      });
   }
 
   return (
     <>
       <Container>
         <form className="formc--login rounded" onSubmit={handleSubmit(onSubmit)}>
-          {loginError && <span>{loginError}</span>}
+          {loginError && <span dangerouslySetInnerHTML={{ __html: loginError }}></span>}
           <fieldset disabled={submitting}>
             <Form.Group className="mb-3">
               <Form.Label>Username</Form.Label>

@@ -24,7 +24,7 @@ export default function Index({ articles }) {
         </Container>
       </main>
 
-      <Row className="container justify-content-center justify-content-md-between justify-content-lg-between gx-0 gy-5 mb-5 mx-auto mt-3">
+      <Row className="container justify-content-center justify-content-md-between justify-content-lg-between gx-0 gy-5 mb-5 mx-auto mt-3 flex-wrap">
         {articles.map((article) => {
           console.log(article);
 

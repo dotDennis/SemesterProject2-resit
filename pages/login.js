@@ -5,7 +5,7 @@ import LoginForm from "../components/LoginForm";
 import checkToken from "../constants/checkToken";
 
 if (checkToken()) {
-  location.href = "/admin/dashboard";
+  console.log("token present");
 }
 
 export default function Login() {

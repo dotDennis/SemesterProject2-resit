@@ -3,6 +3,7 @@ import Container from "react-bootstrap/Container";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { useEffect, useState } from "react";
+import checkToken from "../../constants/checkToken";
 
 export default function TopNav() {
   const [navbar, setNavbar] = useState(false);
@@ -14,6 +15,35 @@ export default function TopNav() {
       setNavbar(false);
     }
   };
+
+  let addPost = false;
+
+  if (checkToken) {
+    addPost = (
+      <>
+        <Container>
+          <span data-rr-ui-dropdown-item>Logged in as</span>
+          <span>{window.localStorage.getItem("displayName")}!</span>
+        </Container>
+        <Dropdown.Divider />
+        <Link href="/create">
+          <a className="nav-link dropdown-item" tabIndex="2" data-rr-ui-dropdown-item>
+            New article
+          </a>
+        </Link>
+      </>
+    );
+  } else {
+    addPost = (
+      <>
+        <Link href="/login">
+          <a className="nav-link dropdown-item" tabIndex="0" data-rr-ui-dropdown-item>
+            Log in
+          </a>
+        </Link>
+      </>
+    );
+  }
 
   useEffect(() => {
     window.addEventListener("scroll", changeNavbar);
@@ -39,23 +69,7 @@ export default function TopNav() {
           id="input-group-dropdown-2"
           align="end"
         >
-          <Link href="/login">
-            <a className="nav-link dropdown-item" tabIndex="0" data-rr-ui-dropdown-item>
-              Log in
-            </a>
-          </Link>
-
-          <Dropdown.Divider />
-          <Link href="/accomodations">
-            <a className="nav-link dropdown-item" tabIndex="2" data-rr-ui-dropdown-item>
-              Accomodations
-            </a>
-          </Link>
-          <Link href="/contact">
-            <a className="nav-link dropdown-item" tabIndex="4" data-rr-ui-dropdown-item>
-              Contact us
-            </a>
-          </Link>
+          {addPost}
         </DropdownButton>
       </Container>
     </div>
