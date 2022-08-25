@@ -5,16 +5,24 @@ import { BASE_URL } from "../../constants/api";
 import Image from "next/image";
 import Container from "react-bootstrap/Container";
 import Link from "next/link";
+import { useState, useEffect } from "react";
 
 export default function Accomodation({ article }) {
-  console.log(article);
+  const [showEdit, setShowEdit] = useState(false);
+
+  useEffect(() => {
+    if (window.localStorage.getItem("token")) {
+      setShowEdit(true);
+    }
+  }, [showEdit]);
+
   return (
     <Layout>
       <Head title={article[0].title.rendered} />
       <Container className="article__featured--img mb-5">
         <Image src={article[0]._embedded["wp:featuredmedia"][0].media_details.sizes["post-thumbnail"].source_url} layout="fill" objectFit="cover" />
       </Container>
-      <Container>
+      <Container className="d-flex justify-content-between">
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">
             <li className="breadcrumb-item">
@@ -28,6 +36,13 @@ export default function Accomodation({ article }) {
             </li>
           </ol>
         </nav>
+        {showEdit && (
+          <>
+            <Link href={"/admin/edit?article=" + article[0].slug}>
+              <a>Edit</a>
+            </Link>
+          </>
+        )}
       </Container>
       <Heading title={article[0].title.rendered} />
       <Container dangerouslySetInnerHTML={{ __html: article[0].content.rendered }} className="container mt-5"></Container>

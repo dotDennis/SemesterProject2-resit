@@ -6,7 +6,6 @@ import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import axios from "axios";
 import { BASE_URL } from "../constants/api";
-import { redirect } from "next/dist/server/api-utils";
 
 const schema = yup.object().shape({
   username: yup.string().required("Please enter your username"),
@@ -38,7 +37,6 @@ export default function LoginForm() {
         if (undefined === res.data.token) {
           setLoginError(res.data.message);
           setSubmitting(false);
-          console.log(res.data.message);
         }
         setSubmitting(false);
         localStorage.setItem("token", res.data.token);
@@ -46,7 +44,7 @@ export default function LoginForm() {
         localStorage.setItem("userEmail", res.data.user_email);
         localStorage.setItem("displayName", res.data.user_display_name);
 
-        location.href = "../article/html-classes";
+        location.href = "/";
       })
       .catch((err) => {
         setLoginError(err.response.data.message);

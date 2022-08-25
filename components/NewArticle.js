@@ -10,6 +10,9 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import slugify from "slugify";
 
+// rich text editor credits:
+// https://www.youtube.com/watch?v=CuPqfcTnIwg
+
 const schema = yup.object().shape({
   Name: yup.string().required("Please enter your name!"),
   category: yup.string().required("Please select a category!"),

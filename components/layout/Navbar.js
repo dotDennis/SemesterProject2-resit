@@ -3,10 +3,10 @@ import Container from "react-bootstrap/Container";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { useEffect, useState } from "react";
-import checkToken from "../../constants/checkToken";
 
 export default function TopNav() {
   const [navbar, setNavbar] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
 
   const changeNavbar = () => {
     if (window.scrollY >= 30) {
@@ -16,38 +16,15 @@ export default function TopNav() {
     }
   };
 
-  let addPost = false;
-
-  if (checkToken) {
-    addPost = (
-      <>
-        <Container>
-          <span data-rr-ui-dropdown-item>Logged in as</span>
-          <span>{window.localStorage.getItem("displayName")}!</span>
-        </Container>
-        <Dropdown.Divider />
-        <Link href="/create">
-          <a className="nav-link dropdown-item" tabIndex="2" data-rr-ui-dropdown-item>
-            New article
-          </a>
-        </Link>
-      </>
-    );
-  } else {
-    addPost = (
-      <>
-        <Link href="/login">
-          <a className="nav-link dropdown-item" tabIndex="0" data-rr-ui-dropdown-item>
-            Log in
-          </a>
-        </Link>
-      </>
-    );
-  }
-
   useEffect(() => {
     window.addEventListener("scroll", changeNavbar);
   }, []);
+
+  useEffect(() => {
+    if (window.localStorage.getItem("userName")) {
+      setShowProfile(true);
+    }
+  }, [showProfile]);
 
   return (
     <div className={navbar ? "mdc-elevation--z4  navbar navbar-expand-lg navbar-light bg-white sticky-top py-3" : "py-3 navbar navbar-expand-lg navbar-dark bg-dark sticky-top"}>
@@ -69,7 +46,28 @@ export default function TopNav() {
           id="input-group-dropdown-2"
           align="end"
         >
-          {addPost}
+          {showProfile && (
+            <>
+              <Container>
+                <span data-rr-ui-dropdown-item>Logged in as {window.localStorage.getItem("userName")}</span>
+              </Container>
+              <Dropdown.Divider />
+              <Link href="/admin/create">
+                <a className="nav-link dropdown-item" tabIndex="2" data-rr-ui-dropdown-item>
+                  New article
+                </a>
+              </Link>
+            </>
+          )}
+          {!showProfile && (
+            <>
+              <Link href="/login">
+                <a className="nav-link dropdown-item" tabIndex="0" data-rr-ui-dropdown-item>
+                  Log in
+                </a>
+              </Link>
+            </>
+          )}
         </DropdownButton>
       </Container>
     </div>

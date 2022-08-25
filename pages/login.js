@@ -5,7 +5,8 @@ import LoginForm from "../components/LoginForm";
 import checkToken from "../constants/checkToken";
 
 if (checkToken()) {
-  console.log("token present");
+  location.href = "/";
+  alert("You're already logged in");
 }
 
 export default function Login() {

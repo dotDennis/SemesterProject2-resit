@@ -26,8 +26,6 @@ export default function Index({ articles }) {
 
       <Row className="container justify-content-center justify-content-md-between justify-content-lg-between gx-0 gy-5 mb-5 mx-auto mt-3 flex-wrap">
         {articles.map((article) => {
-          console.log(article);
-
           const date = new Date(article.modified);
           const format = { day: "numeric", month: "numeric", year: "numeric" };
           const dateFormatted = date.toLocaleString("en-GB", format);
@@ -41,7 +39,6 @@ export default function Index({ articles }) {
                 <div className="d-flex gap-1">
                   <span className="badge rounded-pill text-bg-primary">{article._embedded["wp:term"][0][0].name}</span>
                   {article._embedded["wp:term"][1].map((tag) => {
-                    console.log(tag);
                     return (
                       <span key={tag.name + article.id} className="badge rounded-pill text-bg-primary">
                         {tag.name}
