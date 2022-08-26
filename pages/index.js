@@ -63,7 +63,7 @@ export default function Index({ articles }) {
 
 export async function getStaticProps() {
   try {
-    const response = await fetch(BASE_URL + "wp/v2/posts?_embed");
+    const response = await fetch(BASE_URL + "wp/v2/posts?_embed&per_page=25");
     const resData = await response.json();
     return {
       props: {

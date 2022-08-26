@@ -20,12 +20,13 @@ const schema = yup.object().shape({
   image: yup.string().required("Please upload an image!"),
 });
 
-export default function NewArticle() {
+export default function EditArticle({ article }) {
   const [submitting, setSubmitting] = useState(false);
   const [serverError, setServerError] = useState(null);
   const [success, setSuccess] = useState(null);
   const [file, setFile] = useState(null);
   const [imageID, setImageID] = useState(null);
+  const [deleting, setDeleting] = useState(false);
 
   const [show, setShow] = useState(false);
 
@@ -60,6 +61,34 @@ export default function NewArticle() {
       .then((r) => setImageID(r.data.id));
   };
 
+  async function onDelete() {
+    setDeleting(true);
+    setServerError(null);
+
+    try {
+      await axios
+        .delete(BASE_URL + "wp/v2/posts/" + article[0].id, {
+          headers: {
+            Authorization: "Bearer" + token,
+          },
+        })
+        .then(() => {
+          location.href = "/";
+        });
+
+      setSuccess(`Article successfully deleted! Yay!`);
+    } catch (error) {
+      console.log(error);
+      if (error.code === "ERR_BAD_REQUEST") {
+        setServerError("Seems like we're having some server issues, please try again another time!");
+      } else {
+        setServerError(error.toString());
+      }
+    } finally {
+      setDeleting(false);
+    }
+  }
+
   async function onSubmit(data) {
     setSubmitting(true);
     setServerError(null);
@@ -76,13 +105,13 @@ export default function NewArticle() {
         featured_media: imageID,
       };
 
-      await axios.post(BASE_URL + "wp/v2/posts", data, {
+      await axios.post(BASE_URL + "wp/v2/posts/" + article[0].id, data, {
         headers: {
           Authorization: "Bearer" + token,
         },
       });
 
-      setSuccess(`Article successfully created! Go view it now!`);
+      setSuccess(`Article successfully editted! Go view it now!`);
     } catch (error) {
       if (error.code === "ERR_BAD_REQUEST") {
         setServerError("Seems like we're having some server issues, please try again another time!");
@@ -95,13 +124,13 @@ export default function NewArticle() {
   }
 
   return (
-    <form className="formc formc__new rounded" onSubmit={handleSubmit(onSubmit)}>
+    <form className="formc formc__new rounded " onSubmit={handleSubmit(onSubmit)}>
       {serverError && <div>{serverError}</div>}
       {success && (
         <div>
           <Modal show={show} onHide={handleClose} animation={false}>
             <Modal.Header closeButton>
-              <Modal.Title>Article Created</Modal.Title>
+              <Modal.Title>Article Updated</Modal.Title>
             </Modal.Header>
             <Modal.Body>{success}</Modal.Body>
             <Modal.Footer>
@@ -113,17 +142,17 @@ export default function NewArticle() {
         </div>
       )}
 
-      <fieldset className="form d-flex flex-column" disabled={submitting}>
+      <fieldset className="form d-flex flex-column w-100 justify-content-center" disabled={submitting}>
         <Row>
           <Form.Group className="mb-3 w-50">
             <Form.Label>Title</Form.Label>
-            <input {...register("title")} className="form-control" />
+            <input {...register("title")} className="form-control" defaultValue={article[0].title.rendered} />
             {errors.title && <span>{errors.title.message}</span>}
           </Form.Group>
 
           <Form.Group className="mb-3 w-50">
             <Form.Label>Tag</Form.Label>
-            <select className="form-control" {...register("tag")}>
+            <select className="form-control" defaultValue={article[0].tags[0]} {...register("tag")}>
               <option value="">Select option</option>
               <option value="7">Classes</option>
               <option value="15">Documenting</option>
@@ -142,7 +171,7 @@ export default function NewArticle() {
 
           <Form.Group className="mb-3 w-50">
             <Form.Label>Category</Form.Label>
-            <select className="form-control" {...register("category")}>
+            <select className="form-control" defaultValue={article[0].categories[0]} {...register("category")}>
               <option value="">Select option</option>
               <option value="2">CSS</option>
               <option value="3">JS</option>
@@ -168,13 +197,18 @@ export default function NewArticle() {
 
         <Form.Group className="mb-3">
           <Form.Label>Content</Form.Label>
-          <textarea {...register("content")} className="form-control" />
+          <textarea {...register("content")} defaultValue={article[0].content.rendered} className="form-control textarea" />
           {errors.content && <span>{errors.content.message}</span>}
         </Form.Group>
 
-        <button className="form-control btn-primary" onClick={() => setShow(true)}>
-          {submitting ? "Creating..." : "Create"}
-        </button>
+        <Row className="d-flex mx-auto justify-content-between w-100">
+          <button className="form-control btn-primary w-25" onClick={() => setShow(true)}>
+            {submitting ? "Updating..." : "Update"}
+          </button>
+          <button className="form-control btn-primary w-25" onClick={onDelete}>
+            {deleting ? "Deleting..." : "Delete"}
+          </button>
+        </Row>
       </fieldset>
     </form>
   );

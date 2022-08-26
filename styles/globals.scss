@@ -28,6 +28,9 @@ body {
 .navbar {
   // declaring default values for both states
   .dropdown {
+    a.nav-link {
+      padding: var(--bs-dropdown-item-padding-y) var(--bs-dropdown-item-padding-x);
+    }
     &--account {
       outline-offset: -1.5px;
       background-color: $primary;
@@ -91,38 +94,17 @@ body {
 }
 
 // index scss
-main {
-  padding-top: 5%;
-}
+
 
 .mt-25 {
   margin-top: 25%;
-}
-
-.card {
-  border: none;
-  &.hotels {
-    background-image: linear-gradient(130deg, $primary, #5d0d1f);
-  }
-  &.bednbreakfast {
-    background-image: linear-gradient(130deg, #ff9464, #644202);
-  }
-  &.guesthouses {
-    background-image: linear-gradient(130deg, #4c8850, #0d2f0b);
-  }
-  &.others {
-    background-image: linear-gradient(130deg, #6470ff, #323238);
-  }
 }
 
 .card-img-container {
   height: 200px !important;
 }
 
-.card-body {
-  height: 200px;
-  color: white;
-}
+
 
 .card__link--cover {
   position: absolute;
@@ -138,6 +120,7 @@ main {
   .search {
     position: relative;
     width: 50%;
+    min-width: 300px;
   .search__input {
     position: relative;
     display: flex;
@@ -165,13 +148,15 @@ main {
     position: absolute;
     background: white;
     border-radius: 15px;
-    padding: 7px;
+    padding: 15px;
     z-index: 2;
     .search__result--card {
+      background: white;
+      border-radius: 15px;
       padding: 7px;
       margin-bottom: 7px;
       &:hover {
-        background: $light;
+        background: rgba($dark, 0.3);
       }
 
       p {
@@ -188,9 +173,6 @@ main {
 
 }
 
-.banner__button {
-  max-width: 300px;
-}
 
 
 
@@ -235,4 +217,13 @@ $navbarHeight: 72px;
   &--contact {
     max-width: 800px;
   }
+  .btn-primary {
+    background: $primary;
+  }
+
+
+}
+textarea.form-control {
+  height: 100%;
+  min-height: 300px;
 }

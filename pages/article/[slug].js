@@ -38,7 +38,7 @@ export default function Accomodation({ article }) {
         </nav>
         {showEdit && (
           <>
-            <Link href={"/admin/edit?article=" + article[0].slug}>
+            <Link href={"/admin/edit/" + article[0].slug}>
               <a>Edit</a>
             </Link>
           </>

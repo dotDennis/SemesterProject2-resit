@@ -14,7 +14,7 @@ export default function Create() {
     <>
       <Layout>
         <Head title="New Article" />
-        <Heading title="New Article" />
+        <Heading title="New Article" className="mt-5" />
         <Container>
           <NewArticle />
         </Container>
