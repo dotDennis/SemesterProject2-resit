@@ -5,9 +5,9 @@
 
 https://semester-project2.vercel.app/
 
-# Project Exam 2
+# Semester Project 2 Resit
 
-![image](https://raw.githubusercontent.com/Noroff-FEU-Assignments/project-exam-2-dotDennis/main/projext-exam-2.png?token=GHSAT0AAAAAABUX6WLQ2XTKG4KUVGOCDUIUYVGMFVA)
+![image]()
 
 A fully responsive code wiki website with the ability to search & view different articles.
 
@@ -34,7 +34,7 @@ The website offers:
 1. Clone the repo:
 
 ```bash
-git clone git@github.com:Noroff-FEU-Assignments/project-exam-2-dotDennis.git
+git clone git@github.com:dotDennis/SemesterProject2-resit.git
 ```
 
 2. Install the dependencies:
