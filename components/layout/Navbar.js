@@ -49,7 +49,7 @@ export default function TopNav() {
           {showProfile && (
             <>
               <Container>
-                <span data-rr-ui-dropdown-item>Logged in as {window.localStorage.getItem("userName")}</span>
+                <span data-rr-ui-dropdown-item>Logged in as {window.localStorage.getItem("displayName")}</span>
               </Container>
               <Dropdown.Divider />
               <Link href="/admin/create">
